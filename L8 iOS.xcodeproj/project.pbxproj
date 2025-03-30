@@ -10,6 +10,7 @@
 		DE9A20CB2D99717B00DC74F4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = DE9A20CA2D99717B00DC74F4 /* Apollo */; };
 		DE9A20CD2D99717B00DC74F4 /* ApolloTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DE9A20CC2D99717B00DC74F4 /* ApolloTestSupport */; };
 		DE9A20CF2D99717B00DC74F4 /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = DE9A20CE2D99717B00DC74F4 /* ApolloWebSocket */; };
+		DE9A20E82D997E4500DC74F4 /* MusicHelperAPI in Frameworks */ = {isa = PBXBuildFile; productRef = DE9A20E72D997E4500DC74F4 /* MusicHelperAPI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		DE9A20B62D9474EA00DC74F4 /* L8 iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "L8 iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9A20E22D997CB200DC74F4 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
 		DE9A20E42D997CCC00DC74F4 /* PlaylistHelper.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlaylistHelper.graphql; sourceTree = "<group>"; };
+		DE9A20E52D997D8100DC74F4 /* MusicHelperAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MusicHelperAPI; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -61,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE9A20CB2D99717B00DC74F4 /* Apollo in Frameworks */,
+				DE9A20E82D997E4500DC74F4 /* MusicHelperAPI in Frameworks */,
 				DE9A20CF2D99717B00DC74F4 /* ApolloWebSocket in Frameworks */,
 				DE9A20CD2D99717B00DC74F4 /* ApolloTestSupport in Frameworks */,
 			);
@@ -86,6 +89,7 @@
 		DE9A20912D9474E700DC74F4 = {
 			isa = PBXGroup;
 			children = (
+				DE9A20E52D997D8100DC74F4 /* MusicHelperAPI */,
 				DE9A20E32D997CB200DC74F4 /* graphql */,
 				DE9A209C2D9474E700DC74F4 /* L8 iOS */,
 				DE9A20AF2D9474EA00DC74F4 /* L8 iOSTests */,
@@ -136,6 +140,7 @@
 				DE9A20CA2D99717B00DC74F4 /* Apollo */,
 				DE9A20CC2D99717B00DC74F4 /* ApolloTestSupport */,
 				DE9A20CE2D99717B00DC74F4 /* ApolloWebSocket */,
+				DE9A20E72D997E4500DC74F4 /* MusicHelperAPI */,
 			);
 			productName = "L8 iOS";
 			productReference = DE9A209A2D9474E700DC74F4 /* L8 iOS.app */;
@@ -221,6 +226,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				DE9A20C92D99717B00DC74F4 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				DE9A20E62D997E4500DC74F4 /* XCLocalSwiftPackageReference "MusicHelperAPI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DE9A209B2D9474E700DC74F4 /* Products */;
@@ -586,6 +592,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		DE9A20E62D997E4500DC74F4 /* XCLocalSwiftPackageReference "MusicHelperAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = MusicHelperAPI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		DE9A20C92D99717B00DC74F4 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -612,6 +625,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE9A20C92D99717B00DC74F4 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = ApolloWebSocket;
+		};
+		DE9A20E72D997E4500DC74F4 /* MusicHelperAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MusicHelperAPI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

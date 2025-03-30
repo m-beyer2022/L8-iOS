@@ -7,10 +7,49 @@
 
 import SwiftUI
 import SwiftData
+import MusicHelperAPI
+import Apollo
+
+class Network {
+  static let shared = Network()
+
+  private(set) lazy var apollo = ApolloClient(url: URL(string: "http://127.0.0.1:8000")!)
+}
+
+struct Track {
+    // var id
+    var durationMs: Int
+    var explicit: Bool
+    var name: String
+    var uri: String
+}
+
+struct Playlist {
+    // var id
+    var description: String
+    var name: String
+    var tracks: [Track]
+}
+
+final class ContentViewModel: ObservableObject {
+
+    init() {
+        // TODO (Section 13 - https://www.apollographql.com/docs/ios/tutorial/tutorial-subscriptions#use-your-subscription)
+        Network.shared.apollo.fetch(query: PlaylistDescriptionQuery()) { result in
+            switch result {
+            case .success(let graphQLResult):
+                print("Success! Result: \(graphQLResult)")
+            case .failure(let error):
+                print("Failure! Error: \(error)")
+            }
+        }
+    }
+}
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
+    
 
     var body: some View {
         NavigationSplitView {
