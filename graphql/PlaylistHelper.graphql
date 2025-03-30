@@ -1,0 +1,5 @@
+query PlaylistDescription {
+  featuredPlaylists {
+    description
+  }
+}

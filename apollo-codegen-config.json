@@ -1,5 +1,5 @@
 {
-  "schemaNamespace" : "RocketReserverAPI",
+  "schemaNamespace" : "MusicHelperAPI",
   "input" : {
     "operationSearchPaths" : [
       "**/*.graphql"
@@ -14,7 +14,7 @@
       }
     },
     "schemaTypes" : {
-      "path" : "./RocketReserverAPI",
+      "path" : "./MusicHelperAPI",
       "moduleType" : {
         "swiftPackageManager" : {
         }
@@ -24,5 +24,20 @@
       "inSchemaModule" : {
       }
     }
+  },
+  "schemaDownloadConfiguration": {
+    "downloadMethod": {
+        "introspection": {
+            "endpointURL": "http://127.0.0.1:8000",
+            "httpMethod": {
+                "POST": {}
+            },
+            "includeDeprecatedInputValues": false,
+            "outputFormat": "SDL"
+        }
+    },
+    "downloadTimeout": 60,
+    "headers": [],
+    "outputPath": "./graphql/schema.graphqls"
   }
 }

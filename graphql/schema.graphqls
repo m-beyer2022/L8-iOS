@@ -1,0 +1,103 @@
+"""
+A directive used by the Apollo iOS client to annotate operations or fragments that should be used exclusively for generating local cache mutations instead of as standard operations.
+"""
+directive @apollo_client_ios_localCacheMutation on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""
+A directive used by the Apollo iOS code generation engine to generate custom import statements in operation or fragment definition files. An import statement to import a module with the name provided in the `module` argument will be added to the generated definition file.
+"""
+directive @import(
+  """The name of the module to import."""
+  module: String!
+) repeatable on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""Attach extra information to a given type."""
+directive @typePolicy(
+  """
+  A selection set containing fields used to compute the cache key of an object. Referenced fields must have non-nullable scalar types. Order is important.
+  """
+  keyFields: String!
+) on OBJECT | INTERFACE
+
+"""
+Directs the executor to defer this fragment when the `if` argument is true or undefined.
+"""
+directive @defer(
+  """Deferred when true or undefined."""
+  if: Boolean
+
+  """Unique name"""
+  label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+type Query {
+  """Playlists hand-picked to be featured to all users."""
+  featuredPlaylists: [Playlist!]!
+
+  """Retrieves a specific playlist."""
+  playlist(id: ID!): Playlist
+}
+
+"""
+A curated collection of tracks designed for a specific activity or mood.
+"""
+type Playlist {
+  """The ID for the playlist."""
+  id: ID!
+
+  """The name of the playlist."""
+  name: String!
+
+  """Describes the playlist, what to expect and entices the user to listen."""
+  description: String
+
+  """The tracks in the playlist."""
+  tracks: [Track!]!
+}
+
+"""A single audio file, usually a song."""
+type Track {
+  """The ID for the track."""
+  id: ID!
+
+  """The name of the track."""
+  name: String!
+
+  """The track length in milliseconds."""
+  durationMs: Int!
+
+  """
+  Whether or not the track has explicit lyrics (true = yes it does; false = no it does not OR unknown)
+  """
+  explicit: Boolean!
+
+  """The URI for the track, usually a Spotify link."""
+  uri: String!
+}
+
+type Mutation {
+  """Add one or more items to a user's playlist."""
+  addItemsToPlaylist(input: AddItemsToPlaylistInput!): AddItemsToPlaylistPayload!
+}
+
+type AddItemsToPlaylistPayload {
+  """Similar to HTTP status code, represents the status of the mutation."""
+  code: Int!
+
+  """Indicates whether the mutation was successful."""
+  success: Boolean!
+
+  """Human-readable message for the UI."""
+  message: String!
+
+  """The playlist that contains the newly added items."""
+  playlist: Playlist
+}
+
+input AddItemsToPlaylistInput {
+  """The ID of the playlist."""
+  playlistId: ID!
+
+  """A list of Spotify URIs to add."""
+  uris: [String!]!
+}
