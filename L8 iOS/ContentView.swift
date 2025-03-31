@@ -35,7 +35,7 @@ final class ContentViewModel: ObservableObject {
 
     init() {
         // TODO (Section 13 - https://www.apollographql.com/docs/ios/tutorial/tutorial-subscriptions#use-your-subscription)
-        Network.shared.apollo.fetch(query: PlaylistDescriptionQuery()) { result in
+        Network.shared.apollo.fetch(query: FeaturedPlaylistsQuery()) { result in
             switch result {
             case .success(let graphQLResult):
                 print("Success! Result: \(graphQLResult)")

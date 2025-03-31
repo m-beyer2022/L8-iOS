@@ -20,8 +20,11 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
 
   public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
     switch typename {
+    case "AddItemsToPlaylistPayload": return MusicHelperAPI.Objects.AddItemsToPlaylistPayload
+    case "Mutation": return MusicHelperAPI.Objects.Mutation
     case "Playlist": return MusicHelperAPI.Objects.Playlist
     case "Query": return MusicHelperAPI.Objects.Query
+    case "Track": return MusicHelperAPI.Objects.Track
     default: return nil
     }
   }

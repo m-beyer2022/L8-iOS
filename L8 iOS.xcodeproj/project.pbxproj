@@ -35,8 +35,10 @@
 		DE9A20AC2D9474EA00DC74F4 /* L8 iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "L8 iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9A20B62D9474EA00DC74F4 /* L8 iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "L8 iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9A20E22D997CB200DC74F4 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
-		DE9A20E42D997CCC00DC74F4 /* PlaylistHelper.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlaylistHelper.graphql; sourceTree = "<group>"; };
+		DE9A20E42D997CCC00DC74F4 /* FeaturedPlaylists.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = FeaturedPlaylists.graphql; sourceTree = "<group>"; };
 		DE9A20E52D997D8100DC74F4 /* MusicHelperAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MusicHelperAPI; sourceTree = "<group>"; };
+		DE9A20E92D99B3AF00DC74F4 /* Playlist.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Playlist.graphql; sourceTree = "<group>"; };
+		DE9A20EA2D99B40F00DC74F4 /* AddSongToPlaylist.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = AddSongToPlaylist.graphql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -111,7 +113,9 @@
 		DE9A20E32D997CB200DC74F4 /* graphql */ = {
 			isa = PBXGroup;
 			children = (
-				DE9A20E42D997CCC00DC74F4 /* PlaylistHelper.graphql */,
+				DE9A20EA2D99B40F00DC74F4 /* AddSongToPlaylist.graphql */,
+				DE9A20E92D99B3AF00DC74F4 /* Playlist.graphql */,
+				DE9A20E42D997CCC00DC74F4 /* FeaturedPlaylists.graphql */,
 				DE9A20E22D997CB200DC74F4 /* schema.graphqls */,
 			);
 			path = graphql;

@@ -1,0 +1,14 @@
+query FeaturedPlaylists {
+  featuredPlaylists {
+    id
+    description
+    name
+    tracks {
+      durationMs
+      explicit
+      id
+      name
+      uri
+    }
+  }
+}
