@@ -5,8 +5,8 @@
 //  Created by Moritz Beyer on 02.04.25.
 //
 
-struct Playlist {
-    // var id
+struct Playlist: Identifiable {
+    var id: String
     var description: String
     var name: String
     var tracks: [Track]

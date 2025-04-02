@@ -6,8 +6,8 @@
 //
 
 
-struct Track {
-    // var id
+struct Track: Identifiable {
+    var id: String
     var durationMs: Int
     var explicit: Bool
     var name: String
