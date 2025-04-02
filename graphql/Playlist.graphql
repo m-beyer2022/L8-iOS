@@ -1,0 +1,14 @@
+query Playlist($playlistId: ID!) {
+  playlist(id: $playlistId) {
+    id
+    description
+    name
+    tracks {
+      durationMs
+      explicit
+      id
+      name
+      uri
+    }
+  }
+}
