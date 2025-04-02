@@ -10,15 +10,24 @@ import Foundation
 final class ContentViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
-    
+
     init() {
-        fetchFeaturedPlaylistList { result in
-            switch result {
-            case .success(let playlists):
-                print(playlists)
-            case .failure(let error):
-                print(error)
+        fetchPlaylists()
+    }
+
+    func fetchPlaylists() {
+        fetchFeaturedPlaylistList { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let playlists):
+                    self?.playlists = playlists
+                    self?.error = nil
+                case .failure(let error):
+                    self?.playlists = []
+                    self?.error = error
+                    print("Error fetching playlists: \(error.localizedDescription)")
+                }
             }
         }
     }
-}
+}  
