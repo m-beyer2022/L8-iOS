@@ -35,6 +35,13 @@ struct FeaturedPlaylistListView: View {
                         }
                     }
                 }
+
+                // All tracks section
+                Section("Tracks") {
+                    NavigationLink("Show All Tracks") {
+                        AllTracksView(tracks: viewModel.allTracks)
+                    }
+                }
             }
             .navigationTitle("Music App")
             .refreshable {

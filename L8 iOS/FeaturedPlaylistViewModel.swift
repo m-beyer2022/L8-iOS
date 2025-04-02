@@ -11,6 +11,11 @@ final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
 
+    // Computed property that flattens all tracks
+        var allTracks: [Track] {
+            playlists.flatMap { $0.tracks }
+        }
+
     init() {
         fetchPlaylists()
     }
