@@ -9,6 +9,7 @@ import MusicHelperAPI
 
 func mapTrack(result: FeaturedPlaylistsQuery.Data.FeaturedPlaylist.Track) throws -> Track {
     return Track(
+        id: result.id,
         durationMs: result.durationMs,
         explicit: result.explicit,
         name: result.name,
@@ -23,6 +24,7 @@ Playlist {
     }
 
     return Playlist(
+        id: result.id,
         description: result.description ?? "",
         name: result.name,
         tracks: tracks
