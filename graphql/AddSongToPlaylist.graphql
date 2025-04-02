@@ -1,4 +1,4 @@
-mutation Mutation($input: AddItemsToPlaylistInput!) {
+mutation addSongToPlaylist($input: AddItemsToPlaylistInput!) {
   addItemsToPlaylist(input: $input) {
     code
     message
