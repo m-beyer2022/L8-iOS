@@ -3,11 +3,11 @@
 
 @_exported import ApolloAPI
 
-public class Mutation: GraphQLMutation {
-  public static let operationName: String = "Mutation"
+public class AddSongToPlaylistMutation: GraphQLMutation {
+  public static let operationName: String = "addSongToPlaylist"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation Mutation($input: AddItemsToPlaylistInput!) { addItemsToPlaylist(input: $input) { __typename code message playlist { __typename tracks { __typename durationMs explicit id name uri } } } }"#
+      #"mutation addSongToPlaylist($input: AddItemsToPlaylistInput!) { addItemsToPlaylist(input: $input) { __typename code message playlist { __typename tracks { __typename durationMs explicit id name uri } } } }"#
     ))
 
   public var input: AddItemsToPlaylistInput
