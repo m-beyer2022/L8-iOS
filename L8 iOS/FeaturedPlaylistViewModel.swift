@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ContentViewModel: ObservableObject {
+final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
 
