@@ -5,7 +5,6 @@
 //  Created by Moritz Beyer on 02.04.25.
 //
 
-
 struct Track: Identifiable {
     var id: String
     var durationMs: Int
