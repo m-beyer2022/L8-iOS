@@ -14,5 +14,7 @@ struct PlaylistDetailView: View {
         List(playlist.tracks) { track in
             Text(track.name)
         }
+        Text("\(playlist.tracks.count) tracks • \(playlist.formattedDuration)")
+            .font(.caption)
     }
 }
