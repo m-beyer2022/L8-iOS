@@ -7,11 +7,6 @@
 
 import MusicHelperAPI
 
-func mapAddSongToPlaylistMutation(result: AddSongToPlaylistMutation.Data.AddItemsToPlaylist) throws -> {
-    
-}
-
-
 func mapTrack(result: FeaturedPlaylistsQuery.Data.FeaturedPlaylist.Track) throws -> Track {
     return Track(
         id: result.id,
