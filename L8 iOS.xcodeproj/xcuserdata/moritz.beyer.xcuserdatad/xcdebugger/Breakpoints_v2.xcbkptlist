@@ -18,36 +18,6 @@
             endingLineNumber = "16"
             landmarkName = "example()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F3ADE0AC-A977-4F58-AD5F-C12A2D4BFB00 - edd7162a218edcf1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "L8_iOSTests.L8_iOSTests.example() async throws -&gt; ()"
-                  moduleName = "L8 iOSTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/moritz.beyer/Developer/L8%20iOS/L8%20iOSTests/L8_iOSTests.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16">
-               </Location>
-               <Location
-                  uuid = "F3ADE0AC-A977-4F58-AD5F-C12A2D4BFB00 - 6c82ed83c1d42846"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for L8_iOSTests.L8_iOSTests.example() async throws -&gt; ()"
-                  moduleName = "L8 iOSTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/moritz.beyer/Developer/L8%20iOS/L8%20iOSTests/L8_iOSTests.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -1,0 +1,6 @@
+/apollo-ios-cli
+.aider*
+apollo-codegen-config.json
+L8 iOS.xcodeproj/xcuserdata/moritz.beyer.xcuserdatad/xcschemes/xcschememanagement.plist
+.gitignore
+xcuserdata

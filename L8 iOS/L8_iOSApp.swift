@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct L8_iOSApp: App {
-    @StateObject private var viewModel = ContentViewModel()
+    @StateObject private var viewModel = FeaturedPlaylistViewModel()
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -26,7 +26,7 @@ struct L8_iOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FeaturedPlaylistListView()
                 .environmentObject(viewModel)
         }
         .modelContainer(sharedModelContainer)
