@@ -6,11 +6,73 @@
 //
 
 import Testing
+import Foundation
+@testable import L8_iOS
 
 struct FeaturedPlaylistViewModelTests {
 
-    @Test func <#test function name#>() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    // MARK: - Test Data
+    private let mockPlaylists = [
+        Playlist(
+            id: "1",
+            description: "Test Playlist 1",
+            name: "Playlist 1",
+            tracks: [
+                Track(id: "1", durationMs: 180000, explicit:
+                        false, name: "Track 1", uri: "spotify:track:1"),
+                Track(id: "2", durationMs: 240000, explicit:
+                        true, name: "Track 2", uri: "spotify:track:2")
+            ]
+        ),
+        Playlist(
+            id: "2",
+            description: "Test Playlist 2",
+            name: "Playlist 2",
+            tracks: [
+                Track(id: "3", durationMs: 210000, explicit:
+                        false, name: "Track 3", uri: "spotify:track:3")
+            ]
+        )
+    ]
+
+    private let mockError = NSError(domain: "TestError",
+                                    code: 123, userInfo: nil)
+
+    // MARK: - Mock Repository
+    class MockRepository: RepositoryProtocol {
+        var shouldSucceed: Bool
+        var mockPlaylists: [Playlist]
+        var mockError: Error
+
+        init(shouldSucceed: Bool, mockPlaylists: [Playlist],
+             mockError: Error) {
+            self.shouldSucceed = shouldSucceed
+            self.mockPlaylists = mockPlaylists
+            self.mockError = mockError
+        }
+
+        func fetchFeaturedPlaylistList(completion: @escaping
+                                       (Result<[Playlist], Error>) -> Void) {
+            if shouldSucceed {
+                completion(.success(mockPlaylists))
+            } else {
+                completion(.failure(mockError))
+            }
+        }
     }
 
+    // MARK: - Tests
+
+        @Test func testInitialState() async throws {
+            let mockRepository = MockRepository(
+                shouldSucceed: true,
+                mockPlaylists: [],
+                mockError: mockError
+            )
+            let viewModel = FeaturedPlaylistViewModel(repository:
+    mockRepository)
+
+            #expect(viewModel.playlists.isEmpty)
+            #expect(viewModel.error == nil)
+        }
 }
