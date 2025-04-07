@@ -13,7 +13,7 @@ import Apollo
 struct FeaturedPlaylistListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-    @StateObject private var viewModel = FeaturedPlaylistViewModel()
+    @StateObject private var viewModel = FeaturedPlaylistViewModel(repository: Repository())
 
     var body: some View {
         NavigationSplitView {

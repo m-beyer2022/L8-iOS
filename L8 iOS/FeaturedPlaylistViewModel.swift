@@ -10,18 +10,20 @@ import Foundation
 final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
+    private var repository: RepositoryProtocol
 
     // Computed property that flattens all tracks
         var allTracks: [Track] {
             playlists.flatMap { $0.tracks }
         }
 
-    init() {
+    init(repository: RepositoryProtocol) {
+        self.repository = repository
         fetchPlaylists()
     }
 
     func fetchPlaylists() {
-        fetchFeaturedPlaylistList { [weak self] result in
+        repository.fetchFeaturedPlaylistList { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let playlists):
