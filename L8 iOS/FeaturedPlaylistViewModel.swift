@@ -10,7 +10,7 @@ import Foundation
 final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
-    private var repository: RepositoryProtocol
+    var repository: RepositoryProtocol
 
     // Computed property that flattens all tracks
         var allTracks: [Track] {

@@ -38,6 +38,8 @@ struct FeaturedPlaylistViewModelTests {
     private let mockError = NSError(domain: "TestError",
                                     code: 123, userInfo: nil)
 
+    //    private let urlError = URLError(.badServerResponse)
+
     // MARK: - Mock Repository
     class MockRepository: RepositoryProtocol {
         var shouldSucceed: Bool
@@ -63,16 +65,100 @@ struct FeaturedPlaylistViewModelTests {
 
     // MARK: - Tests
 
-        @Test func testInitialState() async throws {
-            let mockRepository = MockRepository(
-                shouldSucceed: true,
-                mockPlaylists: [],
-                mockError: mockError
-            )
-            let viewModel = FeaturedPlaylistViewModel(repository:
-    mockRepository)
+    @Test func testInitialState() async throws {
+        let mockRepository = MockRepository(
+            shouldSucceed: true,
+            mockPlaylists: [],
+            mockError: mockError
+        )
+        let viewModel = FeaturedPlaylistViewModel(repository:
+                                                    mockRepository)
 
-            #expect(viewModel.playlists.isEmpty)
-            #expect(viewModel.error == nil)
-        }
+        #expect(viewModel.playlists.isEmpty)
+        #expect(viewModel.error == nil)
+    }
+
+    @Test func testSuccessfulFetch() async throws {
+        let mockRepository = MockRepository(
+            shouldSucceed: true,
+            mockPlaylists: mockPlaylists,
+            mockError: mockError
+        )
+        let viewModel = FeaturedPlaylistViewModel(repository:
+                                                    mockRepository)
+
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(viewModel.playlists.count ==
+                mockPlaylists.count)
+        #expect(viewModel.error == nil)
+        #expect(viewModel.playlists.first?.name == "Playlist 1")
+    }
+    @Test func testFailedFetch() async throws {
+        let mockRepository = MockRepository(
+            shouldSucceed: false,
+            mockPlaylists: mockPlaylists,
+            mockError: mockError
+        )
+        let viewModel = FeaturedPlaylistViewModel(repository:
+                                                    mockRepository)
+
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        #expect(viewModel.playlists.isEmpty)
+        #expect(viewModel.error != nil)
+        #expect((viewModel.error! as NSError).code == 123)
+    }
+
+    @Test func testAllTracksComputedProperty() async throws {
+        let mockRepository = MockRepository(
+            shouldSucceed: true,
+            mockPlaylists: mockPlaylists,
+            mockError: mockError
+        )
+        let viewModel = FeaturedPlaylistViewModel(repository:
+                                                    mockRepository)
+
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+
+        let expectedTrackCount = mockPlaylists.reduce(0) { $0
+            + $1.tracks.count }
+        #expect(viewModel.allTracks.count ==
+                expectedTrackCount)
+        #expect(viewModel.allTracks.first?.name == "Track 1")
+        #expect(viewModel.allTracks.last?.name == "Track 3")
+    }
+
+    @Test func testErrorIsNilAfterSuccessfulRetry() async
+    throws {
+        let failingRepository = MockRepository(
+            shouldSucceed: false,
+            mockPlaylists: mockPlaylists,
+            mockError: mockError
+        )
+        let viewModel = FeaturedPlaylistViewModel(repository:
+                                                    failingRepository)
+
+        // Wait for first (failed) fetch
+        try await Task.sleep(nanoseconds: 100_000_000)
+        #expect(viewModel.error != nil)
+
+        // Change to success case
+        let successRepository = MockRepository(
+            shouldSucceed: true,
+            mockPlaylists: mockPlaylists,
+            mockError: mockError
+        )
+        viewModel.repository = successRepository
+        viewModel.fetchPlaylists()
+
+        // Wait for second (successful) fetch
+        try await Task.sleep(nanoseconds: 100_000_000)
+        #expect(viewModel.error == nil)
+        #expect(viewModel.playlists.count ==
+                mockPlaylists.count)
+    }
 }
