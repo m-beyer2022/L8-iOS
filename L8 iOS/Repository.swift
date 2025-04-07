@@ -6,6 +6,7 @@
 //
 
 import Apollo
+import Foundation
 import MusicHelperAPI
 
 protocol RepositoryProtocol {
@@ -14,6 +15,24 @@ protocol RepositoryProtocol {
 
 struct Repository: RepositoryProtocol {
     func fetchFeaturedPlaylistList(completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        if ProcessInfo.processInfo.arguments.contains("-UITesting") {
+            // Mock response
+            let mockPlaylist = Playlist(
+                id: "mock1",
+                description: "Mock playlist for UI tests",
+                name: "Test Playlist",
+                tracks: [
+                    Track(id: "track1", durationMs: 180000, explicit: false,
+                          name: "Test Track 1", uri: "spotify:track:1"),
+                    Track(id: "track2", durationMs: 210000, explicit: true,
+                          name: "Test Track 2", uri: "spotify:track:2")
+                ]
+            )
+            DispatchQueue.main.async {
+                completion(.success([mockPlaylist]))
+            }
+            return
+        }
         let query = MusicHelperAPI.FeaturedPlaylistsQuery()
         Network.shared.apollo.fetch(query: query) { result in
             switch result {

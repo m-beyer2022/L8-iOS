@@ -9,7 +9,6 @@ import Testing
 import Foundation
 @testable import L8_iOS
 
-
 struct FeaturedPlaylistViewModelTests {
 
     // MARK: - Test Data
@@ -43,6 +42,7 @@ struct FeaturedPlaylistViewModelTests {
 
     // MARK: - Mock Repository
     class MockRepository: RepositoryProtocol {
+        
         var shouldSucceed: Bool
         var mockPlaylists: [Playlist]
         var mockError: Error
