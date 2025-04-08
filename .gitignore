@@ -1,2 +1,4 @@
 /apollo-ios-cli
 .aider*
+xcuserdata
+!/.aiderignore
