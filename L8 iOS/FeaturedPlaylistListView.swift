@@ -14,6 +14,7 @@ struct FeaturedPlaylistListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     @StateObject private var viewModel = FeaturedPlaylistViewModel(repository: Repository())
+    @State private var searchText: String = ""
 
     var body: some View {
         NavigationSplitView {
@@ -43,6 +44,7 @@ struct FeaturedPlaylistListView: View {
                     }
                 }
             }
+            .searchable(text: $searchText) // Adds a search field.
             .navigationTitle("Music App")
             .refreshable {
                 viewModel.fetchPlaylists()
