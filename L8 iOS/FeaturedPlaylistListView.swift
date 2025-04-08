@@ -15,7 +15,7 @@ struct FeaturedPlaylistListView: View {
     @Query private var items: [Item]
     @StateObject private var viewModel = FeaturedPlaylistViewModel(repository: Repository())
     @State private var searchText: String = ""
-                                                                                                                                                                                                                    
+
     // Computed property for filtered playlists
     var filteredPlaylists: [Playlist] {
         if searchText.isEmpty {
@@ -27,7 +27,7 @@ struct FeaturedPlaylistListView: View {
             }
         }
     }
-                                                                                                                                                                                                                    
+
     var body: some View {
         NavigationSplitView {
             List {
@@ -48,7 +48,6 @@ struct FeaturedPlaylistListView: View {
                         }
                     }
                 }
-                                                                                                                                                                                                                    
                 Section("Tracks") {
                     NavigationLink("Show All Tracks") {
                         AllTracksView(tracks: viewModel.allTracks)
@@ -64,7 +63,7 @@ struct FeaturedPlaylistListView: View {
             Text("Select an item")
         }
     }
-}  
+}
 
 #Preview {
     FeaturedPlaylistListView()
