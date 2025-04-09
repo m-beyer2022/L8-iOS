@@ -80,4 +80,41 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         let finish = firstCell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.9))
         start.press(forDuration: 0.1, thenDragTo: finish)
     }
+    
+    func testSearchFunctionality() {
+        // Verify initial state
+        XCTAssert(app.staticTexts["Test Playlist"].exists)
+        XCTAssert(app.staticTexts["Mock playlist for UI tests"].exists)
+                                                                                                                                                                                                                        
+        // Tap the search field
+        let searchField = app.searchFields["Search playlists"]
+        XCTAssert(searchField.exists)
+        searchField.tap()
+                                                                                                                                                                                                                        
+        // Search for "Test" (should match the mock playlist)
+        searchField.typeText("Test")
+                                                                                                                                                                                                                        
+        // Verify only matching playlist is shown
+        XCTAssert(app.staticTexts["Test Playlist"].exists)
+        XCTAssertFalse(app.staticTexts["Another Playlist"].exists) // Negative test
+                                                                                                                                                                                                                        
+        // Clear search
+        app.buttons["Clear text"].tap()
+                                                                                                                                                                                                                        
+        // Search for "Mock" in description
+        searchField.typeText("Mock")
+                                                                                                                                                                                                                        
+        // Verify playlist with matching description is shown
+        XCTAssert(app.staticTexts["Test Playlist"].exists)
+        XCTAssert(app.staticTexts["Mock playlist for UI tests"].exists)
+                                                                                                                                                                                                                        
+        // Test case insensitivity
+        app.buttons["Clear text"].tap()
+        searchField.typeText("test")
+        XCTAssert(app.staticTexts["Test Playlist"].exists)
+                                                                                                                                                                                                                        
+        // Clear search to return to initial state
+        app.buttons["Clear text"].tap()
+        XCTAssert(app.staticTexts["Test Playlist"].exists)
+    } 
 }
