@@ -31,7 +31,7 @@ struct AllTracksView: View {
             }
         }
         .sheet(isPresented: $showPlaylistPicker) {
-            HStack {
+            VStack {
                 if let track = selectedTrack {
                     Picker("Select Playlist", selection: $selectedPlaylistId) {
                         ForEach(viewModel.playlists) { playlist in
