@@ -72,3 +72,53 @@ errors.description])))
         }
     }
 }
+
+#if DEBUG
+struct PreviewRepository: RepositoryProtocol {
+    // Mock playlists data
+    private let mockPlaylists = [
+        Playlist(
+            id: "preview1",
+            description: "Preview playlist 1",
+            name: "Chill Vibes",
+            tracks: [
+                Track(id: "pv1", durationMs: 180000, explicit: false,
+                      name: "Relaxing Song", uri: "spotify:track:pv1"),
+                Track(id: "pv2", durationMs: 210000, explicit: false,
+                      name: "Calm Melody", uri: "spotify:track:pv2")
+            ]
+        ),
+        Playlist(
+            id: "preview2",
+            description: "Preview playlist 2",
+            name: "Workout Mix",
+            tracks: [
+                Track(id: "pv3", durationMs: 240000, explicit: true,
+                      name: "Energy Boost", uri: "spotify:track:pv3"),
+                Track(id: "pv4", durationMs: 195000, explicit: false,
+                      name: "Power Run", uri: "spotify:track:pv4")
+            ]
+        )
+    ]
+
+    func fetchFeaturedPlaylistList(completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        // Simulate network delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            completion(.success(mockPlaylists))
+        }
+    }
+
+    func addTrackToPlaylist(playlistId: String, trackUri: String,
+                           completion: @escaping (Result<AddSongToPlaylistResponse, Error>) -> Void) {
+        // Always return success for previews
+        let response = AddSongToPlaylistResponse(
+            code: 200,
+            message: "Track added successfully",
+            success: true
+        )
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            completion(.success(response))
+        }
+    }
+}
+#endif 

@@ -39,7 +39,15 @@ struct FeaturedPlaylistListView: View {
                 // All tracks section
                 Section("Tracks") {
                     NavigationLink("Show All Tracks") {
-                        AllTracksView(tracks: viewModel.allTracks)
+                        AllTracksView(viewModel: viewModel, tracks: viewModel.allTracks)
+                    }
+                }
+
+                Section {
+                    ForEach(viewModel.allTracks) { track in
+                        HStack {
+                            Text(track.name)
+                        }
                     }
                 }
             }
