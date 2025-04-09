@@ -31,25 +31,28 @@ struct AllTracksView: View {
             }
         }
         .sheet(isPresented: $showPlaylistPicker) {
-            if let track = selectedTrack {
-                HStack {
+            HStack {
+                if let track = selectedTrack {
                     Picker("Select Playlist", selection: $selectedPlaylistId) {
                         ForEach(viewModel.playlists) { playlist in
                             Text(playlist.name).tag(playlist.id as String?)
                         }
-                        Button("Add to Playlist") {
-                            if let playlistId = selectedPlaylistId,
-                               let playlist = viewModel.playlists.first(where: { $0.id == playlistId }) {
-                                viewModel.addTrack(track, to: playlist)
-                                dismiss()
-                            }
-                        }
-                        .disabled(selectedPlaylistId == nil)
+
                     }
                     .pickerStyle(.inline)
+
+                    Button("Add to Playlist") {
+                        if let playlistId = selectedPlaylistId,
+                           let playlist = viewModel.playlists.first(where: { $0.id == playlistId }) {
+                            viewModel.addTrack(track, to: playlist)
+                            dismiss()
+                        }
+                    }
+                    .disabled(selectedPlaylistId == nil)
+
+                } else {
+                    Color.red
                 }
-            } else {
-                Color.red
             }
         }
         .navigationTitle("All Tracks")
@@ -59,5 +62,14 @@ struct AllTracksView: View {
 let viewModel = FeaturedPlaylistViewModel(repository: PreviewRepository())
 
 #Preview {
-    AllTracksView(viewModel: viewModel, tracks: [.init(id: "", durationMs: 1, explicit: false, name: "Hello", uri: "h")])
+    AllTracksView(
+        viewModel: viewModel,
+        tracks: [.init(
+            id: "",
+            durationMs: 1,
+            explicit: false,
+            name: "Hello",
+            uri: "h"
+        )]
+    )
 }
