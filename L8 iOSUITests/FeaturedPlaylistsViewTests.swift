@@ -115,6 +115,86 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
                                                                                                                                                                                                                         
         // Clear search to return to initial state
         app.buttons["Clear text"].tap()
-        XCTAssert(app.staticTexts["Test Playlist"].exists)
-    } 
+        XCTAssert(app.staticTexts["Chill Vibes"].exists)
+    }
+
+    func testPlaylistDetailView() {
+        // Launch with mock data
+        app.launch()
+
+        // Verify mock playlist exists
+        XCTAssert(app.staticTexts["Test Playlist"].waitForExistence(timeout: 5))
+
+        // Tap on the mock playlist
+        app.staticTexts["Test Playlist"].tap()
+
+        // Verify we're on detail view
+        XCTAssert(app.staticTexts["Test Playlist"].exists) // Navigation title
+        XCTAssert(app.staticTexts["Mock playlist for UI tests"].exists) // Description
+
+        // Verify track count and duration
+        let infoText = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'tracks •'")).firstMatch
+        XCTAssert(infoText.exists)
+        XCTAssert(infoText.label.contains("2 tracks")) // From mock data
+
+        // Verify track list
+        XCTAssert(app.staticTexts["Test Track 1"].exists)
+        XCTAssert(app.staticTexts["Test Track 2"].exists)
+
+        // Verify explicit indicator
+        let explicitTracks = app.images.matching(identifier: "e.square.fill")
+        XCTAssertEqual(explicitTracks.count, 1) // Only 1 explicit track in mock data
+
+        // Test back navigation
+        app.navigationBars.buttons["Music App"].tap()
+        XCTAssert(app.navigationBars["Music App"].exists) // Verify we're back
+    }
+
+    func testAddTrackToPlaylistFlow() {
+        // Launch with mock data
+        app.launchArguments.append("-UITesting")
+        app.launch()
+
+        // Wait for login view to appear
+        XCTAssert(app.images["music.note"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Music App"].exists)
+
+        // Simulate login completion
+        app.buttons["Sign in with Apple"].tap() // Add accessibility identifier to your login button
+
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 2))
+
+        // Navigate to playlist detail (using the new mock data)
+        app.staticTexts["Popular Now"].tap()
+
+        // Verify we're on detail view
+        XCTAssert(app.staticTexts["Popular Now"].exists)
+        XCTAssert(app.staticTexts["Top Hits 2023"].exists)
+
+        // Tap add button on first track
+        let firstAddButton = app.buttons.matching(identifier: "Add to Playlist").firstMatch
+        XCTAssert(firstAddButton.waitForExistence(timeout: 1))
+        firstAddButton.tap()
+
+        // Verify playlist picker appears
+        XCTAssert(app.staticTexts["Select Playlist"].waitForExistence(timeout: 1))
+
+        // Select a playlist to add to (using new mock data)
+        app.staticTexts["Acoustic Morning"].tap()
+        app.buttons["Add to Playlist"].tap()
+
+        // Verify success feedback
+        let successAlert = app.alerts["Success"]
+        XCTAssert(successAlert.waitForExistence(timeout: 1))
+        XCTAssert(successAlert.staticTexts["Track added successfully"].exists)
+        successAlert.buttons["OK"].tap()
+
+        // Verify we returned to detail view
+        XCTAssert(app.staticTexts["Popular Now"].exists)
+    }
+        // Note: In a real test, you'd want to verify the track was added
+        // This would require either:
+        // 1. Mocking the addTrack response in Repository
+        // 2. Checking for a success alert
 }
