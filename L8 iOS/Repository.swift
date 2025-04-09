@@ -11,6 +11,8 @@ import MusicHelperAPI
 
 protocol RepositoryProtocol {
     func fetchFeaturedPlaylistList(completion: @escaping (Result<[Playlist], Error>) -> Void)
+    func addTrackToPlaylist(playlistId: String, trackUri: String, completion: @escaping
+    (Result<AddSongToPlaylistResponse, Error>) -> Void)
 }
 
 struct Repository: RepositoryProtocol {
@@ -42,6 +44,27 @@ struct Repository: RepositoryProtocol {
                     completion(.success(playlists))
                 } catch {
                     completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func addTrackToPlaylist(playlistId: String, trackUri: String, completion: @escaping
+(Result<AddSongToPlaylistResponse, Error>) -> Void) {
+        let input = AddItemsToPlaylistInput(playlistId: playlistId, uris: [trackUri])
+        let mutation = AddSongToPlaylistMutation(input: input)
+
+        Network.shared.apollo.perform(mutation: mutation) { result in
+            switch result {
+            case .success(let graphQLResult):
+                if let data = graphQLResult.data {
+                    let response = mapAddSongToPlaylistResponse(result: data.addItemsToPlaylist)
+                    completion(.success(response))
+                } else if let errors = graphQLResult.errors {
+                    completion(.failure(NSError(domain: "GraphQL", code: -1, userInfo: [NSLocalizedDescriptionKey:
+errors.description])))
                 }
             case .failure(let error):
                 completion(.failure(error))

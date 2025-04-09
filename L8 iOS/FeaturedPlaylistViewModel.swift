@@ -10,6 +10,7 @@ import Foundation
 final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var playlists: [Playlist] = []
     @Published var error: Error?
+    @Published var addTrackResult: AddSongToPlaylistResponse?
     var repository: RepositoryProtocol
 
     // Computed property that flattens all tracks
@@ -37,4 +38,21 @@ final class FeaturedPlaylistViewModel: ObservableObject {
             }
         }
     }
-}  
+
+    func addTrack(_ track: Track, to playlist: Playlist) {
+        repository.addTrackToPlaylist(playlistId: playlist.id, trackUri: track.uri) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.addTrackResult = response
+                    if response.success {
+                        // Optionally refresh the playlist data
+                        self?.fetchPlaylists()
+                    }
+                case .failure(let error):
+                    self?.error = error
+                }
+            }
+        }
+    }
+}
