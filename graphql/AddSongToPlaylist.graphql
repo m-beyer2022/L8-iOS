@@ -2,14 +2,6 @@ mutation addSongToPlaylist($input: AddItemsToPlaylistInput!) {
   addItemsToPlaylist(input: $input) {
     code
     message
-    playlist {
-      tracks {
-        durationMs
-        explicit
-        id
-        name
-        uri
-      }
-    }
+    success
   }
 }
