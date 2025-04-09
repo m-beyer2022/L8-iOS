@@ -53,14 +53,6 @@ struct FeaturedPlaylistListView: View {
                         AllTracksView(viewModel: viewModel, tracks: viewModel.allTracks)
                     }
                 }
-
-                Section {
-                    ForEach(viewModel.allTracks) { track in
-                        HStack {
-                            Text(track.name)
-                        }
-                    }
-                }
             }
             .searchable(text: $searchText, prompt: "Search playlists")
             .navigationTitle("Music App")
