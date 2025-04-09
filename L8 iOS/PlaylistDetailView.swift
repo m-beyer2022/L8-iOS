@@ -9,7 +9,12 @@ import SwiftUI
 
 struct PlaylistDetailView: View {
     let playlist: Playlist
-
+    @State private var showPlaylistPicker = false
+    @State private var selectedTrack: Track?
+    @State private var selectedPlaylistId: String?
+    @Environment(\.dismiss) private var dismiss
+    var viewModel: FeaturedPlaylistViewModel
+    
     var body: some View {
         List {
             // Playlist header section
@@ -29,19 +34,19 @@ struct PlaylistDetailView: View {
                     )
                     .cornerRadius(8)
                     .shadow(radius: 4)
-
+                
                 VStack(alignment: .leading, spacing: 8) {
                     Text(playlist.description)
                         .font(.title)
                         .fontWeight(.bold)
-
+                    
                     Text("\(playlist.tracks.count) tracks • \(playlist.formattedDuration)")
                         .font(.title2)
                         .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 8)
             }
-
+            
             // Tracks section
             Section(header: Text("Tracks")) {
                 ForEach(playlist.tracks) { track in
@@ -56,8 +61,44 @@ struct PlaylistDetailView: View {
                                 .foregroundColor(.secondary)
                                 .font(.caption)
                         }
+
+                        Spacer()
+                        Button(action: {
+                            selectedTrack = track
+                            showPlaylistPicker = true
+                        }) {
+                            Label("Add to Playlist", systemImage: "plus")
+                                .labelStyle(.iconOnly)
+                        }
+                        .buttonStyle(.borderless)
                     }
                     .padding(.vertical, 4)
+                }
+            }
+            .sheet(isPresented: $showPlaylistPicker) {
+                HStack {
+                    if let track = selectedTrack {
+                        Picker("Select Playlist", selection: $selectedPlaylistId) {
+                            ForEach(viewModel.playlists) { playlist in
+                                Text(playlist.name).tag(playlist.id as String?)
+                            }
+                            
+                        }
+                        .pickerStyle(.inline)
+
+
+                        Button("Add to Playlist") {
+                            if let playlistId = selectedPlaylistId,
+                               let playlist = viewModel.playlists.first(where: { $0.id == playlistId }) {
+                                viewModel.addTrack(track, to: playlist)
+                                dismiss()
+                            }
+                        }
+                        .disabled(selectedPlaylistId == nil)
+                        
+                    } else {
+                        Color.red
+                    }
                 }
             }
         }
@@ -83,7 +124,7 @@ struct PlaylistDetailView: View {
         tracks: mockTracks
     )
 
-    return NavigationStack {
-        PlaylistDetailView(playlist: mockPlaylist)
+    NavigationStack {
+        PlaylistDetailView(playlist: mockPlaylist, viewModel: FeaturedPlaylistViewModel(repository: PreviewRepository()))
     }
 }
