@@ -14,12 +14,25 @@ struct FeaturedPlaylistListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     @StateObject private var viewModel = FeaturedPlaylistViewModel(repository: Repository())
+    @State private var searchText: String = ""
+
+    // Computed property for filtered playlists
+    var filteredPlaylists: [Playlist] {
+        if searchText.isEmpty {
+            return viewModel.playlists
+        } else {
+            return viewModel.playlists.filter { playlist in
+                playlist.name.localizedCaseInsensitiveContains(searchText) ||
+                playlist.description.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
 
     var body: some View {
         NavigationSplitView {
             List {
                 Section(header: Text("Featured Playlists")) {
-                    ForEach(viewModel.playlists) { playlist in
+                    ForEach(filteredPlaylists) { playlist in
                         NavigationLink {
                             PlaylistDetailView(playlist: playlist)
                         } label: {
@@ -35,8 +48,6 @@ struct FeaturedPlaylistListView: View {
                         }
                     }
                 }
-
-                // All tracks section
                 Section("Tracks") {
                     NavigationLink("Show All Tracks") {
                         AllTracksView(viewModel: viewModel, tracks: viewModel.allTracks)
@@ -51,6 +62,7 @@ struct FeaturedPlaylistListView: View {
                     }
                 }
             }
+            .searchable(text: $searchText, prompt: "Search playlists")
             .navigationTitle("Music App")
             .refreshable {
                 viewModel.fetchPlaylists()
