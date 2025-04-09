@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct L8_iOSApp: App {
+    @State private var showLogin = true
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -24,9 +26,14 @@ struct L8_iOSApp: App {
     }()
 
     var body: some Scene {
-        WindowGroup {
-            FeaturedPlaylistListView()
+            WindowGroup {
+                if showLogin {
+                    LoginView(onLoginComplete: { showLogin = false })
+                } else {
+                    FeaturedPlaylistListView()
+                        .transition(.opacity)
+                }
+            }
+            .modelContainer(sharedModelContainer)
         }
-        .modelContainer(sharedModelContainer)
     }
-}
