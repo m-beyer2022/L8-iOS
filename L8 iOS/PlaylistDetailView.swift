@@ -67,7 +67,7 @@ struct PlaylistDetailView: View {
                             selectedTrack = track
                             showPlaylistPicker = true
                         }) {
-                            Label("Add to Playlist", systemImage: "plus")
+                            Label("Open add to Playlist", systemImage: "plus")
                                 .labelStyle(.iconOnly)
                         }
                         .buttonStyle(.borderless)
