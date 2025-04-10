@@ -33,15 +33,24 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
 
     func testExample() throws {
+        // Wait for login view to appear
+        XCTAssert(app.images["music.note"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Music App"].exists)
+
+        // Simulate login completion
+        app.buttons["Sign in with Apple"].tap()
+
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 2))
 
         // Verify navigation title exists
         XCTAssert(app.navigationBars["Music App"].exists)
 
         // Verify "Featured Playlists" section exists
-        XCTAssert(app.staticTexts["Featured Playlists"].exists)
+        XCTAssert(app.staticTexts["FEATURED PLAYLISTS"].exists)
 
         // Verify "Tracks" section exists
-        XCTAssert(app.staticTexts["Tracks"].exists)
+        XCTAssert(app.staticTexts["TRACKS"].exists)
     }
 
     func testNavigationToAllTracks() {
