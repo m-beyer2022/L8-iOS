@@ -42,6 +42,8 @@ struct FeaturedPlaylistViewModelTests {
 
     // MARK: - Mock Repository
     class MockRepository: RepositoryProtocol {
+        func addTrackToPlaylist(playlistId: String, trackUri: String, completion: @escaping (Result<L8_iOS.AddSongToPlaylistResponse, any Error>) -> Void) {
+        }
         
         var shouldSucceed: Bool
         var mockPlaylists: [Playlist]

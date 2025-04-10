@@ -7,6 +7,21 @@
 
 import MusicHelperAPI
 
+struct AddSongToPlaylistResponse {
+    let code: Int
+    let message: String
+    let success: Bool
+}
+
+func mapAddSongToPlaylistResponse(result: AddSongToPlaylistMutation.Data.AddItemsToPlaylist) ->
+AddSongToPlaylistResponse {
+    return AddSongToPlaylistResponse(
+        code: result.code,
+        message: result.message,
+        success: result.success
+    )
+}
+
 func mapTrack(result: FeaturedPlaylistsQuery.Data.FeaturedPlaylist.Track) throws -> Track {
     return Track(
         id: result.id,

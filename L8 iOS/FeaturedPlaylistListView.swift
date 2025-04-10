@@ -34,7 +34,7 @@ struct FeaturedPlaylistListView: View {
                 Section(header: Text("Featured Playlists")) {
                     ForEach(filteredPlaylists) { playlist in
                         NavigationLink {
-                            PlaylistDetailView(playlist: playlist)
+                            PlaylistDetailView(playlist: playlist, viewModel: viewModel)
                         } label: {
                             VStack(alignment: .leading) {
                                 Text(playlist.name)
@@ -50,7 +50,7 @@ struct FeaturedPlaylistListView: View {
                 }
                 Section("Tracks") {
                     NavigationLink("Show All Tracks") {
-                        AllTracksView(tracks: viewModel.allTracks)
+                        AllTracksView(viewModel: viewModel, tracks: viewModel.allTracks)
                     }
                 }
             }
