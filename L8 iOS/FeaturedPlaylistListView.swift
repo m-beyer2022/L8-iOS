@@ -29,25 +29,46 @@ struct FeaturedPlaylistListView: View {
     }
 
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             List {
                 Section(header: Text("Featured Playlists")) {
                     ForEach(filteredPlaylists) { playlist in
                         NavigationLink {
                             PlaylistDetailView(playlist: playlist, viewModel: viewModel)
                         } label: {
-                            VStack(alignment: .leading) {
-                                Text(playlist.name)
-                                    .font(.headline)
-                                Text(playlist.description)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                Text("\(playlist.tracks.count) tracks")
-                                    .font(.caption)
+                            HStack(spacing: 16) {
+                                // Add gradient image
+                                Image(systemName: "music.note.list")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .background(
+                                        LinearGradient(
+                                            gradient: Gradient(colors:
+randomGradientColors(for: playlist.id)),
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .cornerRadius(8)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(playlist.name)
+                                        .font(.headline)
+                                    Text(playlist.description)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(5)
+                                    Text("\(playlist.tracks.count) tracks")
+                                        .font(.caption)
+                                }
                             }
                         }
                     }
                 }
+
                 Section("Tracks") {
                     NavigationLink("Show All Tracks") {
                         AllTracksView(viewModel: viewModel, tracks: viewModel.allTracks)
@@ -56,12 +77,37 @@ struct FeaturedPlaylistListView: View {
             }
             .searchable(text: $searchText, prompt: "Search playlists")
             .navigationTitle("Music App")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
             .refreshable {
                 viewModel.fetchPlaylists()
             }
-        } detail: {
-            Text("Select an item")
         }
+    }
+
+    // Helper function to generate consistent random colors based on playlist ID
+    private func randomGradientColors(for id: String) -> [Color] {
+        let colors: [[Color]] = [
+            [.blue, .purple],
+            [.orange, .pink],
+            [.green, .mint],
+            [.indigo, .teal],
+            [.yellow, .orange],
+            [.purple, .indigo],
+            [.teal, .blue]
+        ]
+
+        // Use playlist ID to get consistent colors for each playlist
+        let hash = id.hashValue
+        let index = abs(hash) % colors.count
+        return colors[index]
     }
 }
 
