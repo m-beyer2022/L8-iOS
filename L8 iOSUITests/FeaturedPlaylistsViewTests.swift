@@ -47,8 +47,17 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         // Wait for main view to load
         XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
 
-        // Tap the "Show All Tracks" link
-        app.staticTexts["Show All Tracks"].tap()
+        // Get a reference to the list
+        let list = app.collectionViews.firstMatch
+
+        // Scroll down to find the "Show All Tracks" link
+        let showAllTracks = app.staticTexts["Show All Tracks"]
+        while !showAllTracks.exists {
+            list.swipeUp()
+        }
+
+        // Now that we've scrolled to it, tap the link
+        showAllTracks.tap()
 
         // Verify we navigated to All Tracks view
         XCTAssert(app.navigationBars["All Tracks"].exists)
@@ -170,16 +179,31 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         let firstAddButton = app.buttons.matching(identifier: "Open add to Playlist").firstMatch
         XCTAssert(firstAddButton.waitForExistence(timeout: 1))
         firstAddButton.tap()
-//        firstAddButton.tap()
-//
-//        // Select a playlist from the picker
-//        app.pickerWheels.firstMatch.adjust(toPickerWheelValue: "Workout Mix")
-//
-//        // Tap the Add button
-//        app.buttons["Add to Playlist"].tap()
-//
-//        // Verify we returned to detail view
-//        XCTAssert(app.staticTexts["Popular Now"].exists)
+
+        // Verify sheet is presented
+        XCTAssert(app.staticTexts["Select Playlist"].waitForExistence(timeout: 1))
+
+        // Verify the sheet contains the expected content
+        XCTAssert(app.pickerWheels.firstMatch.exists)
+
+        // Select a playlist from the picker
+        app.pickerWheels.firstMatch.adjust(toPickerWheelValue: "Workout Mix")
+
+        // Verify Add button is enabled
+        let addButton = app.buttons["Add to Playlist"]
+
+        // Tap the Add button
+        addButton.tap()
+
+        // Verify sheet is dismissed
+        XCTAssertFalse(app.staticTexts["Select Playlist"].exists)
+
+        // Verify we're still on detail view
+        XCTAssert(app.staticTexts["Popular Now"].exists)
+
+        // Note: In a complete test, you would also verify:
+        // 1. The track was actually added (would require mock repository)
+        // 2. Any success feedback is shown (alert/toast)
     }
 
         // Note: In a real test, you'd want to verify the track was added

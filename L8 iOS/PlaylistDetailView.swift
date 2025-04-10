@@ -61,7 +61,7 @@ struct PlaylistDetailView: View {
                                 .foregroundColor(.secondary)
                                 .font(.caption)
                         }
-
+                        
                         Spacer()
                         Button(action: {
                             selectedTrack = track
@@ -75,35 +75,48 @@ struct PlaylistDetailView: View {
                     .padding(.vertical, 4)
                 }
             }
-            .sheet(isPresented: $showPlaylistPicker) {
-                HStack {
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle(playlist.name)
+        .sheet(isPresented: $showPlaylistPicker) {
+            NavigationStack {
+                VStack(spacing: 20) {
                     if let track = selectedTrack {
+                        Text("Add '\(track.name)' to:")
+                            .font(.headline)
+                            .padding(.top)
+                        
                         Picker("Select Playlist", selection: $selectedPlaylistId) {
                             ForEach(viewModel.playlists) { playlist in
                                 Text(playlist.name).tag(playlist.id as String?)
                             }
-                            
                         }
                         .pickerStyle(.inline)
-
-
-                        Button("Add to Playlist") {
-                            if let playlistId = selectedPlaylistId,
-                               let playlist = viewModel.playlists.first(where: { $0.id == playlistId }) {
-                                viewModel.addTrack(track, to: playlist)
-                                dismiss()
-                            }
-                        }
-                        .disabled(selectedPlaylistId == nil)
                         
-                    } else {
-                        Color.red
+                        HStack(spacing: 20) {
+                            Button("Cancel") {
+                                showPlaylistPicker = false
+                            }
+                            .foregroundColor(.red)
+                            
+                            Button("Add to Playlist") {
+                                if let playlistId = selectedPlaylistId,
+                                   let playlist = viewModel.playlists.first(where: { $0.id == playlistId }) {
+                                    viewModel.addTrack(track, to: playlist)
+                                    showPlaylistPicker = false
+                                }
+                            }
+                            .disabled(selectedPlaylistId == nil)
+                            .buttonStyle(.borderedProminent)
+                        }
+                        .padding()
                     }
                 }
+                .navigationTitle("Select Playlist")
+                .navigationBarTitleDisplayMode(.inline)
             }
+            .presentationDetents([.medium])
         }
-        .listStyle(.insetGrouped)
-        .navigationTitle(playlist.name)
     }
 }
 
