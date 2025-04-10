@@ -47,8 +47,17 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         // Wait for main view to load
         XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
 
-        // Tap the "Show All Tracks" link
-        app.staticTexts["Show All Tracks"].tap()
+        // Get a reference to the list
+        let list = app.collectionViews.firstMatch
+
+        // Scroll down to find the "Show All Tracks" link
+        let showAllTracks = app.staticTexts["Show All Tracks"]
+        while !showAllTracks.exists {
+            list.swipeUp()
+        }
+
+        // Now that we've scrolled to it, tap the link
+        showAllTracks.tap()
 
         // Verify we navigated to All Tracks view
         XCTAssert(app.navigationBars["All Tracks"].exists)
