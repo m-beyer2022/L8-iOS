@@ -179,16 +179,31 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         let firstAddButton = app.buttons.matching(identifier: "Open add to Playlist").firstMatch
         XCTAssert(firstAddButton.waitForExistence(timeout: 1))
         firstAddButton.tap()
-//        firstAddButton.tap()
-//
-//        // Select a playlist from the picker
-//        app.pickerWheels.firstMatch.adjust(toPickerWheelValue: "Workout Mix")
-//
-//        // Tap the Add button
-//        app.buttons["Add to Playlist"].tap()
-//
-//        // Verify we returned to detail view
-//        XCTAssert(app.staticTexts["Popular Now"].exists)
+
+        // Verify sheet is presented
+        XCTAssert(app.staticTexts["Select Playlist"].waitForExistence(timeout: 1))
+
+        // Verify the sheet contains the expected content
+        XCTAssert(app.pickerWheels.firstMatch.exists)
+
+        // Select a playlist from the picker
+        app.pickerWheels.firstMatch.adjust(toPickerWheelValue: "Workout Mix")
+
+        // Verify Add button is enabled
+        let addButton = app.buttons["Add to Playlist"]
+
+        // Tap the Add button
+        addButton.tap()
+
+        // Verify sheet is dismissed
+        XCTAssertFalse(app.staticTexts["Select Playlist"].exists)
+
+        // Verify we're still on detail view
+        XCTAssert(app.staticTexts["Popular Now"].exists)
+
+        // Note: In a complete test, you would also verify:
+        // 1. The track was actually added (would require mock repository)
+        // 2. Any success feedback is shown (alert/toast)
     }
 
         // Note: In a real test, you'd want to verify the track was added
