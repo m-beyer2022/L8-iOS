@@ -31,18 +31,18 @@ struct LoginView: View {
             .frame(height: 50)
             .padding(.horizontal, 40)
 
-            // Loading indicator
-            if isLoading {
-                ProgressView()
-                    .padding(.top, 20)
-            }
-
             // Guest login button
             Button("Continue as Guest") {
                 handleLogin()
             }
             .foregroundColor(.gray)
             .padding(.top, 20)
+
+            // Loading indicator
+            if isLoading {
+                ProgressView()
+                    .padding(.top, 20)
+            }
         }
         .padding()
     }
