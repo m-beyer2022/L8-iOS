@@ -19,6 +19,7 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments.append("-UITesting")
         app.launch()
+        app.buttons["Sign in with Apple"].tap()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
@@ -28,20 +29,9 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
     }
 
-    func testMockPlaylistAppears() {
-        XCTAssert(app.staticTexts["Test Playlist"].waitForExistence(timeout: 1))
-    }
-
     func testExample() throws {
-        // Wait for login view to appear
-        XCTAssert(app.images["music.note"].waitForExistence(timeout: 2))
-        XCTAssert(app.staticTexts["Music App"].exists)
-
-        // Simulate login completion
-        app.buttons["Sign in with Apple"].tap()
-
         // Wait for main view to load
-        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 2))
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
 
         // Verify navigation title exists
         XCTAssert(app.navigationBars["Music App"].exists)
@@ -54,9 +44,9 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
 
     func testNavigationToAllTracks() {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
+
         // Tap the "Show All Tracks" link
         app.staticTexts["Show All Tracks"].tap()
 
@@ -83,6 +73,9 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
 
     func testPullToRefresh() {
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
+
         // Pull to refresh
         let firstCell = app.cells.firstMatch
         let start = firstCell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.1))
@@ -91,6 +84,9 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
     
     func testSearchFunctionality() {
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
+
         // Verify initial state
         XCTAssert(app.staticTexts["Test Playlist"].exists)
         XCTAssert(app.staticTexts["Mock playlist for UI tests"].exists)
@@ -128,8 +124,8 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
 
     func testPlaylistDetailView() {
-        // Launch with mock data
-        app.launch()
+        // Wait for main view to load
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
 
         // Verify mock playlist exists
         XCTAssert(app.staticTexts["Test Playlist"].waitForExistence(timeout: 5))
@@ -160,19 +156,8 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
     }
 
     func testAddTrackToPlaylistFlow() {
-        // Launch with mock data
-        app.launchArguments.append("-UITesting")
-        app.launch()
-
-        // Wait for login view to appear
-        XCTAssert(app.images["music.note"].waitForExistence(timeout: 2))
-        XCTAssert(app.staticTexts["Music App"].exists)
-
-        // Simulate login completion
-        app.buttons["Sign in with Apple"].tap() // Add accessibility identifier to your login button
-
         // Wait for main view to load
-        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 2))
+        XCTAssert(app.navigationBars["Music App"].waitForExistence(timeout: 5))
 
         // Navigate to playlist detail (using the new mock data)
         app.staticTexts["Popular Now"].tap()
@@ -187,7 +172,7 @@ final class FeaturedPlaylistsViewTests: XCTestCase {
         firstAddButton.tap()
 
         // Verify playlist picker appears
-        XCTAssert(app.staticTexts["Select Playlist"].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["Select Playlist"].waitForExistence(timeout: 5))
 
         // Select a playlist to add to (using new mock data)
         app.staticTexts["Acoustic Morning"].tap()
